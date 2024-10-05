@@ -1,10 +1,21 @@
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Correct import
+import VacancyPage from "./pages/VacancyPage";
 
-function App() {
-
+const App: React.FC = () => {
   return (
-   <div>Home Page</div>
-  )
-}
+    <Router>
+      <AppContent />
+    </Router>
+  );
+};
 
-export default App
+const AppContent: React.FC = () => {
+  return (
+    <Routes>
+      <Route path="/vacancy" element={<VacancyPage />} />
+      <Route path="/" element={<div>Home Page</div>} />
+    </Routes>
+  );
+};
+
+export default App;
