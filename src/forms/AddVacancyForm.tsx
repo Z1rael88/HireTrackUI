@@ -26,6 +26,7 @@ const AddVacancyForm = ({ onSubmit }: AddVacancyFormProps) => {
           display: "flex",
           flexDirection: "row",
           alignItems: "flex-start",
+          justifyContent: "center",
           width: "100%",
           gap: 2,
         }}

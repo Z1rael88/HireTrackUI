@@ -19,7 +19,6 @@ const initialState: VacancyState = {
   error: null,
 };
 
-// Define async thunks with explicit types
 export const fetchVacancies = createAsyncThunk<Vacancy[], void>(
   "vacancies/fetch",
   getVacancies
