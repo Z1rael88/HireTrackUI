@@ -110,9 +110,9 @@ const Privacy = () => {
                     title: "9. Kontakt",
                     content: (
                         <>
-                            W przypadku pytań dotyczących polityki prywatności prosimy o kontakt pod adresem:{" "}
-                            <Link href="mailto:kontakt.hiretrack@gmail.com" color="primary.contrastText"
-                                  sx={{fontWeight: "bold"}}> kontakt.hiretrack@gmail.com</Link>
+                            W przypadku pytań dotyczących polityki prywatności prosimy o {" "}
+                            <Link href="/contact" color="primary.contrastText"
+                                  sx={{fontWeight: "bold"}}> kontakt</Link>
                         </>
                     )
                 }
