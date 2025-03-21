@@ -3,8 +3,8 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import MainPage from "./pages/mainPage/MainPage.tsx";
 import theme from "./style/ColorTheme.ts"
 import {ThemeProvider} from "@mui/material";
-import Header from "./pages/mainPage/Header.tsx";
-import Footer from "./pages/mainPage/Footer.tsx";
+import Header from "./components/Header.tsx";
+import Footer from "./components/Footer.tsx";
 import Privacy from "./pages/privacyPolicy/Privacy.tsx";
 import Contact from "./pages/contact/Contact.tsx";
 import ContactFormProps from "./pages/contact/ContactForm.tsx";
