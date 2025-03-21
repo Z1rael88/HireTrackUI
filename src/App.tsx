@@ -8,6 +8,7 @@ import Footer from "./pages/mainPage/Footer.tsx";
 import Privacy from "./pages/privacyPolicy/Privacy.tsx";
 import Contact from "./pages/contact/Contact.tsx";
 import ContactFormProps from "./pages/contact/ContactForm.tsx";
+import ScrollTopButton from "./components/ScrollTopButton";
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -16,6 +17,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
+                <ScrollTopButton/>
                 <Header/>
                 <Routes>
                     <Route path="/" element={<MainPage/>}/>
