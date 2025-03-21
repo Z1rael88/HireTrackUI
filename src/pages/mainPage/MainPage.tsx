@@ -193,7 +193,7 @@ const MainPage: React.FC = () => {
                         <Typography variant="h6" fontWeight="bold" color="primary.ContrastText" gutterBottom>
                             Usługi wsparcia dla kandydatów
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body1" textAlign="left">
                             Zapewniamy kompleksowe wsparcie na każdym etapie rekrutacji – od
                             przygotowania profesjonalnego CV, przez skuteczne strategie aplikowania,
                             aż po przygotowanie do rozmów kwalifikacyjnych. Dzięki naszym narzędziom

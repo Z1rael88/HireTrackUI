@@ -30,7 +30,7 @@ const Header: React.FC = () => {
         {label: "O nas", path: "/about"},
         {label: "Oferty", path: "/oferty"},
         {label: "Utwórz CV", path: "/createCV"},
-        {label: "Kontakt", path: "/kontakt"},
+        {label: "Kontakt", path: "/contact"},
     ];
     return (
         <AppBar
