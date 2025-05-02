@@ -3,14 +3,17 @@
 html {
   box-sizing: border-box;
 }
+
 html, body {
   min-height: 100vh;
-
+  margin: 0;
 
 }
-body:after{
+
+body:after {
   filter: blur(822px);
 }
+
 *, *:before, *:after {
   font-family: "Roboto", sans-serif;
   margin: 0;
@@ -22,8 +25,24 @@ a {
   text-decoration: none;
   color: inherit;
   display: inline-block;
+
   &:hover {
     text-decoration: none;
     color: inherit;
+  }
+}
+
+.custom-toast {
+  background: #1a1a1a;
+  color: #FFD700;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+
+  .Toastify__close-button {
+    color: white !important;
+    opacity: 1 !important;
   }
 }

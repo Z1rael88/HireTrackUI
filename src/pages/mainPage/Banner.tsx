@@ -1,6 +1,7 @@
 import {Box, Button, Typography} from "@mui/material";
 import {motion} from "framer-motion";
 import React from "react";
+import {Link} from "react-router-dom";
 
 const Banner: React.FC = () => {
     return (
@@ -9,7 +10,7 @@ const Banner: React.FC = () => {
                 position: "relative",
                 width: "100%",
                 height: "400px",
-                backgroundImage: "url('/banner.png')",
+                backgroundImage: "url(/images/banner.png)",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 display: "flex",
@@ -42,6 +43,8 @@ const Banner: React.FC = () => {
                 </Typography>
                 <Button
                     variant="contained"
+                    component={Link}
+                    to={"/authUser"}
                     sx={{
                         mt: 4,
                         fontSize: "1.2rem",

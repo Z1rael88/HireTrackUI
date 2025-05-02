@@ -5,7 +5,6 @@ import {motion} from "framer-motion";
 
 const ScrollTopButton = () => {
     const [isVisible, setIsVisible] = useState(false);
-
     useEffect(() => {
         const toggleVisibility = () => {
             setIsVisible(window.scrollY > 100);
@@ -13,11 +12,9 @@ const ScrollTopButton = () => {
         window.addEventListener("scroll", toggleVisibility);
         return () => window.removeEventListener("scroll", toggleVisibility);
     }, []);
-
     const scrollToTop = () => {
         window.scrollTo({top: 0, behavior: "smooth"});
     };
-
     return (
         <Box
             sx={{

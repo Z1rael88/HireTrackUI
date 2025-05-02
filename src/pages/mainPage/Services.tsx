@@ -78,7 +78,7 @@ const Services: React.FC = () => {
                         transition={{duration: 1}}
                     >
                         <Box>
-                            <img src="/tailored-job.png" alt="Tailored Job Searches"
+                            <img src="/images/tailored-job.png" alt="Tailored Job Searches"
                                  style={{
                                      width: "100%",
                                      borderRadius: "12px"
@@ -154,7 +154,7 @@ const Services: React.FC = () => {
                         transition={{duration: 1}}
                     >
                         <Box>
-                            <img src="/employer-solutions.png" alt="Employer Solutions"
+                            <img src="/images/employer-solutions.png" alt="Employer Solutions"
                                  style={{
                                      width: "100%",
                                      borderRadius: "12px"
@@ -167,7 +167,7 @@ const Services: React.FC = () => {
                         transition={{duration: 1}}
                     >
                         <Box>
-                            <img src="/candidate-support.png" alt="Candidate Support Services"
+                            <img src="/images/candidate-support.png" alt="Candidate Support Services"
                                  style={{
                                      width: "100%",
                                      borderRadius: "12px"

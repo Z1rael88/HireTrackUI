@@ -1,5 +1,8 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {logout} from "../../store/userSlice";
+import {useNavigate} from "react-router-dom";
 import {
     AppBar,
     Toolbar,
@@ -12,14 +15,15 @@ import {
     ListItemIcon,
     Divider,
     ButtonGroup,
-
 } from "@mui/material";
 import {Person, AccountCircle, Logout, Settings} from '@mui/icons-material';
+import {toast} from "react-toastify";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store";
 
 const Header: React.FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -32,6 +36,16 @@ const Header: React.FC = () => {
         {label: "Utwórz CV", path: "/createCV"},
         {label: "Kontakt", path: "/contact"},
     ];
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        setAnchorEl(null);
+        toast.success(`Zostałeś wylogowany!`);
+        dispatch(logout());
+        navigate('/');
+    };
+    const isAuth = useSelector((state: RootState) => state.user.isAuth);
+    const user = useSelector((state: RootState) => state.user.user);
     return (
         <AppBar
             position="static"
@@ -73,14 +87,19 @@ const Header: React.FC = () => {
                             {item.label}
                         </Button>
                     ))}
-                    <IconButton onClick={handleClick}>
+                    <IconButton onClick={(event) => {
+                        if (isAuth) {
+                            handleClick(event);
+                        } else {
+                            navigate("/authUser");
+                        }
+                    }}>
                         <Person fontSize={"large"} sx={{
                             color: "primary.main",
                             "&:hover": {
                                 color: "secondary.main",
                             }
                         }}/>
-
                     </IconButton>
                     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}
                           transformOrigin={{horizontal: 'left', vertical: 'top'}}
@@ -104,11 +123,13 @@ const Header: React.FC = () => {
                             <ListItemIcon>
                                 <AccountCircle fontSize="medium" sx={{color: 'primary.main'}}/>
                             </ListItemIcon>
-                            <Typography variant="body1">Dmytro Parfenenko</Typography>
+                            {isAuth && user && (
+                                <Typography variant="body1">
+                                    {user.firstname} {user.lastname}
+                                </Typography>
+                            )}
                         </MenuItem>
-
                         <Divider sx={{bgcolor: "secondary.main"}}/>
-
                         <MenuItem onClick={handleClose}>
                             <Typography variant="body2">Wybrane oferty</Typography>
                         </MenuItem>
@@ -118,17 +139,14 @@ const Header: React.FC = () => {
                         <MenuItem onClick={handleClose}>
                             <Typography variant="body2">Bezpieczeństwo</Typography>
                         </MenuItem>
-
                         <Divider sx={{bgcolor: "secondary.main"}}/>
-
                         <MenuItem onClick={handleClose}>
                             <ListItemIcon>
                                 <Settings fontSize="small" sx={{color: 'gray'}}/>
                             </ListItemIcon>
                             <Typography variant="body2">Ustawienia</Typography>
                         </MenuItem>
-
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={handleLogout}>
                             <ListItemIcon>
                                 <Logout fontSize="small" sx={{color: 'red'}}/>
                             </ListItemIcon>
