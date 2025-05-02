@@ -14,8 +14,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import theme from "../../style/ColorTheme.ts";
 import {ThemeProvider} from "@mui/material";
-import {sendContactForm} from "../../api/contactApi";
-import {ContactFormData} from "../../types/ContactFormData.ts";
+import {useSendContactFormMutation} from "../../api/contactApiSlice";
+import {ContactFormType} from "../../types/contactTypes/ContactFormType.ts";
 
 interface ContactFormProps {
     open: boolean;
@@ -23,34 +23,28 @@ interface ContactFormProps {
 }
 
 const ContactForm: React.FC<ContactFormProps> = ({open, handleClose}) => {
-    const {handleSubmit, control, formState: {errors}, reset} = useForm<ContactFormData>({
+    const {handleSubmit, control, formState: {errors}, reset} = useForm<ContactFormType>({
         defaultValues: {
-            name: "",
+            username: "",
             email: "",
             message: "",
         }
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [status, setStatus] = useState<"success" | "error" | null>(null);
-    const onSubmit = async (data: ContactFormData) => {
+    const [sendContactForm] = useSendContactFormMutation();
+    const onSubmit = async (data: ContactFormType) => {
         setIsLoading(true);
         setStatus(null);
         try {
-            const response = await sendContactForm(data);
-            if (response.status >= 200 && response.status < 300) {
-                setStatus("success");
-                setTimeout(() => {
-                    setStatus(null);
-                    reset();
-                    handleClose();
-                }, 2000);
-            } else {
-                setStatus("error");
-                setTimeout(() => {
-                    setStatus(null);
-                    handleClose();
-                }, 2000);
-            }
+            await sendContactForm(data).unwrap();
+
+            setStatus("success");
+            setTimeout(() => {
+                setStatus(null);
+                reset();
+                handleClose();
+            }, 2000);
         } catch {
             setStatus("error");
             setTimeout(() => {
@@ -157,7 +151,7 @@ const ContactForm: React.FC<ContactFormProps> = ({open, handleClose}) => {
                 )}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
-                        name="name"
+                        name="username"
                         control={control}
                         rules={{
                             required: "Imię jest wymagane!",
@@ -173,8 +167,8 @@ const ContactForm: React.FC<ContactFormProps> = ({open, handleClose}) => {
                                 label="Twoje imię"
                                 variant="outlined"
                                 disabled={isLoading}
-                                error={!!errors.name}
-                                helperText={errors.name?.message}
+                                error={!!errors.username}
+                                helperText={errors.username?.message}
                                 sx={{
                                     mb: 2,
                                     "& .MuiOutlinedInput-root": {
