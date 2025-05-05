@@ -33,12 +33,9 @@ function App() {
                 setLoading(false);
                 return;
             }
-            console.log("Refresh token from localStorage:", refreshToken);
-
             try {
                 await triggerRefresh({refreshToken}).unwrap();
             } catch (err) {
-                console.error("Token refresh failed", err);
                 dispatch(logout());
             } finally {
                 setLoading(false);
@@ -46,8 +43,10 @@ function App() {
         };
 
         void tryRefresh();
-    }, [dispatch, triggerRefresh]);
-    if (loading) return <div>Ładowanie sesji...</div>;
+    }, []);
+    if (loading) {
+        return
+    }
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
