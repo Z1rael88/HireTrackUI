@@ -5,8 +5,22 @@
     <link rel="icon" type="image/svg+xml" href="/icon/HireTrackLogo.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>HireTrack</title>
+    <link rel="stylesheet" href="./src/style/style.scss"/>
 </head>
 <body>
+<div id="preloader" class="visible">
+    <div class="loader-wrapper">
+        <div class="loader-text">
+            <h1>Przetwarzamy Twoje żądanie...</h1>
+            <p>Wszystko gotowe – zaraz przekierujemy Cię do strony</p>
+        </div>
+        <div class="dot-loader">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+</div>
 <div id="root"></div>
 <script type="module" src="/src/main.tsx"></script>
 </body>

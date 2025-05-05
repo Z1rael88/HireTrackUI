@@ -9,8 +9,8 @@ export type User = {
     confirmPassword: string
 };
 
-export type AuthResponse = {
-    accessToken: string;
-}
-
-export type Roles = 2 | 3;
+export type Roles = 0 | 1 | 2 | 3;
+// SystemAdministrator = 0
+// CompanyAdministrator = 1
+// HrManager = 2
+// Candidate = 3

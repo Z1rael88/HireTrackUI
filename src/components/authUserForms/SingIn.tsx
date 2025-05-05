@@ -4,7 +4,7 @@ import {
     Button,
     Typography,
     TextField,
-    IconButton,
+    IconButton, CircularProgress,
 } from "@mui/material";
 import {useForm, Controller} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
@@ -29,7 +29,7 @@ const SignIn: React.FC = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(prev => !prev);
     };
-    const [login] = useLoginMutation();
+    const [login, {isLoading}] = useLoginMutation();
     const navigate = useNavigate();
     const onSubmit = async (data: LoginUserType) => {
         try {
@@ -37,11 +37,14 @@ const SignIn: React.FC = () => {
             toast.success(`Witam ${res.userResponseDto.firstname} ${res.userResponseDto.lastname}!`);
             navigate("/");
         } catch (error: any) {
-            const msg =
-                error?.data?.message ||
-                error?.error?.message ||
-                "Błąd logowania. Spróbuj ponownie.";
-            toast.error(msg);
+            const msg = error?.data?.message?.toLowerCase() || "Błąd logowania";
+            if (msg.includes("invalid password")) {
+                toast.error("Nieprawidłowe hasło!");
+            } else if (msg.includes("user") && msg.includes("not found")) {
+                toast.error("Nie znaleziono użytkownika!");
+            } else {
+                toast.error("Błąd logowania. Spróbuj ponownie.");
+            }
         }
     };
     return (
@@ -131,6 +134,7 @@ const SignIn: React.FC = () => {
                 <Button
                     type="submit"
                     variant="contained"
+                    disabled={isLoading}
                     sx={{
                         backgroundColor: "secondary.main",
                         borderRadius: "30px",
@@ -144,7 +148,11 @@ const SignIn: React.FC = () => {
                         },
                     }}
                 >
-                    Zaloguj
+                    {isLoading ? (
+                        <CircularProgress size={24} sx={{color: "gray"}}/>
+                    ) : (
+                        "Zaloguj"
+                    )}
                 </Button>
 
                 <Typography variant="body2" color="#000" mb={1} mt={1}>

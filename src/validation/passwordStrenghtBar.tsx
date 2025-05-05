@@ -6,29 +6,30 @@ type Props = {
 
 const getPasswordStrength = (password: string): number => {
     let strength = 0;
-    if (password.length >= 3) strength++;
-    if (password.length >= 6) strength++;
     if (/[a-z]/.test(password)) strength++;
     if (/[A-Z]/.test(password)) strength++;
     if (/\d/.test(password)) strength++;
+    if (/[^a-zA-Z0-9]/.test(password)) strength++;
     return strength;
 };
 
 const getColor = (strength: number) => {
-    if (strength <= 2) return "red";
-    if (strength <= 4) return "secondary.main";
+    if (strength <= 1) return "red";
+    if (strength <= 3) return "secondary.main";
     return "green";
 };
 
 const getLabel = (strength: number) => {
-    if (strength <= 2) return "Słabe hasło";
-    if (strength <= 4) return "Średnie hasło";
+    if (strength <= 1) return "Słabe hasło";
+    if (strength <= 3) return "Średnie hasło";
     return "Silne hasło";
 };
 
+
 export const PasswordStrengthBar = ({password}: Props) => {
     const strength = getPasswordStrength(password);
-    const percentage = (strength / 5) * 100;
+    const basePercentage = (strength / 4) * 100;
+    const percentage = password.length >= 8 ? basePercentage : basePercentage * 0.6;
     const color = getColor(strength);
     const label = getLabel(strength);
 

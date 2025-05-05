@@ -1,5 +1,5 @@
 export const validatePassword = (password: string) => {
-    const minLength = 6;
+    const minLength = 8;
     const minLowercase = 1;
     const minUppercase = 1;
     const minNumbers = 1;

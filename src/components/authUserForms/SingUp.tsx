@@ -35,7 +35,7 @@ const SignUp: React.FC = () => {
             email: "",
             username: "",
             age: 18,
-            role: 2,
+            role: 3,
             password: "",
             confirmPassword: "",
         },
@@ -50,11 +50,15 @@ const SignUp: React.FC = () => {
             toast.success('Rejestracja zakończona! Przejdź do logowania.');
             reset();
         } catch (error: any) {
-            const msg =
-                error?.data?.message ||
-                error?.error?.message ||
-                "Błąd rejestracji. Spróbuj ponownie.";
-            toast.error(msg);
+            const msg = error?.data?.errors?.[0]?.toLowerCase() || "Błąd rejestracji";
+
+            if (msg.includes("username") && msg.includes("already taken")) {
+                toast.error("Użytkownik o takiej nazwie już istnieje!");
+            } else if (msg.includes("ix_aspnetusers_email")) {
+                toast.error("Podany e-mail jest już przypisany do innego konta!");
+            } else {
+                toast.error("Błąd rejestracji. Spróbuj ponownie.");
+            }
         }
     };
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -249,12 +253,10 @@ const SignUp: React.FC = () => {
                     <Controller
                         name="role"
                         control={control}
-                        rules={{required: "Rola jest wymagana!"}}
                         render={({field}) => (
                             <FormControl
                                 fullWidth
                                 size="small"
-                                error={!!errors.role}
                                 sx={{
                                     "& .MuiOutlinedInput-root": {
                                         borderRadius: "14px",
@@ -274,11 +276,10 @@ const SignUp: React.FC = () => {
                                 <Select
                                     {...field}
                                     label="Rola"
-                                    value={field.value ?? 2}
-                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                    disabled
+                                    value={3}
                                 >
-                                    <MenuItem value={2} sx={{color: "primary.contrastText"}}>Użytkownik</MenuItem>
-                                    <MenuItem value={3} sx={{color: "primary.contrastText"}}>HR Manager</MenuItem>
+                                    <MenuItem value={3} sx={{color: "primary.contrastText"}}>Kandydat</MenuItem>
                                 </Select>
                                 <FormHelperText>{errors.role?.message}</FormHelperText>
                             </FormControl>
