@@ -17,7 +17,7 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {validatePassword} from "../../validation/validationPassword.ts";
 import {PasswordStrengthBar} from "../../validation/passwordStrenghtBar.tsx";
 import {User} from "../../types/authUserTypes/RegisterUserType.ts";
-import {useRegisterUserMutation} from '../../api/authApiSlice';
+import {useRegisterMutation} from '../../api/apiSlice.ts';
 import {toast} from 'react-toastify';
 
 const SignUp: React.FC = () => {
@@ -43,7 +43,7 @@ const SignUp: React.FC = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [showConfirmPassword] = useState<boolean>(false);
     const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
-    const [registerUser] = useRegisterUserMutation();
+    const [registerUser] = useRegisterMutation();
     const onSubmit = async (data: User) => {
         try {
             await registerUser(data).unwrap();

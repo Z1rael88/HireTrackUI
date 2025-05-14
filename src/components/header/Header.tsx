@@ -19,7 +19,7 @@ import {
 import {Person, AccountCircle, Logout, Settings} from '@mui/icons-material';
 import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
-import {RootState} from "../../store";
+import type {RootState} from '../../store.ts';
 
 const Header: React.FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -44,8 +44,7 @@ const Header: React.FC = () => {
         dispatch(logout());
         navigate('/');
     };
-    const isAuth = useSelector((state: RootState) => state.user.isAuth);
-    const user = useSelector((state: RootState) => state.user.user);
+    const {isAuth, user} = useSelector((state: RootState) => state.user);
     return (
         <AppBar
             position="static"
@@ -103,6 +102,7 @@ const Header: React.FC = () => {
                     </IconButton>
                     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}
                           transformOrigin={{horizontal: 'left', vertical: 'top'}}
+                          disableScrollLock
                           sx={{
                               "& .MuiPaper-root": {
                                   bgcolor: "background.default",
