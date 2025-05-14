@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {authApi} from '../api/authApiSlice';
-import {Roles} from '../types/authUserTypes/RegisterUserType.ts';
+import {authApi} from '../api/apiSlice';
+import type {Roles} from '../types/authUserTypes/RegisterUserType';
 
 interface UserState {
     id: string | null;
@@ -9,6 +9,7 @@ interface UserState {
     user: {
         firstname: string;
         lastname: string;
+        email: string;
     } | null;
 }
 
@@ -28,41 +29,34 @@ const userSlice = createSlice({
             state.isAuth = false;
             state.id = null;
             state.role = null;
+            state.user = null;
             localStorage.removeItem('token');
             localStorage.removeItem('refreshToken');
         },
     },
     extraReducers: (builder) => {
         builder
-            .addMatcher(authApi.endpoints.login.matchFulfilled, (state, action) => {
-                state.isAuth = true;
-                state.user = action.payload.userResponseDto;
-                state.id = action.payload.userResponseDto.id.toString();
-                state.role = mapRole(action.payload.userResponseDto.role);
-                localStorage.setItem('token', action.payload.tokenDto.accessToken);
-                localStorage.setItem('refreshToken', action.payload.tokenDto.refreshToken);
-            })
-            .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
-                state.isAuth = false;
-                state.id = null;
-                state.role = null;
-                localStorage.removeItem('token');
-                localStorage.removeItem('refreshToken');
-            })
-            .addMatcher(authApi.endpoints.refresh.matchFulfilled, (state, action) => {
-                const accessToken = (action.payload as any).accessToken;
-                const refreshToken = (action.payload as any).refreshToken;
-                localStorage.setItem("token", accessToken);
-                localStorage.setItem("refreshToken", refreshToken);
-                state.isAuth = true;
-            })
+            .addMatcher(authApi.endpoints.login.matchFulfilled, (state, {payload}: any) => {
+                    state.isAuth = true;
+                    state.user = {
+                        firstname: payload.userResponseDto.firstname,
+                        lastname: payload.userResponseDto.lastname,
+                        email: payload.userResponseDto.email,
+                    };
+                    state.id = payload.userResponseDto.id.toString();
+                    state.role = payload.userResponseDto.role;
+                    localStorage.setItem('token', payload.tokenDto.accessToken);
+                    localStorage.setItem('refreshToken', payload.tokenDto.refreshToken);
+                }
+            )
+            .addMatcher(authApi.endpoints.refresh.matchFulfilled, (state, {payload}) => {
+                    localStorage.setItem('token', payload.accessToken);
+                    localStorage.setItem('refreshToken', payload.refreshToken);
+                    state.isAuth = true;
+                }
+            );
     },
 });
-
-const mapRole = (role: number): Roles => {
-    if (role === 3) return 3;
-    return 2;
-};
 
 export const {logout} = userSlice.actions;
 export default userSlice.reducer;

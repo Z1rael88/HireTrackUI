@@ -10,7 +10,7 @@ import {useForm, Controller} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import {FcGoogle} from "react-icons/fc";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {useLoginMutation} from '../../api/authApiSlice';
+import {useLoginMutation} from '../../api/apiSlice.ts';
 import {LoginUserType} from "../../types/authUserTypes/LoginUserType.ts";
 import {toast} from 'react-toastify';
 
