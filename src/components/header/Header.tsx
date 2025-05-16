@@ -14,9 +14,9 @@ import {
     Menu,
     ListItemIcon,
     Divider,
-    ButtonGroup,
+    ButtonGroup, Avatar,
 } from "@mui/material";
-import {Person, AccountCircle, Logout, Settings} from '@mui/icons-material';
+import {Logout, Settings} from '@mui/icons-material';
 import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
 import type {RootState} from '../../store.ts';
@@ -44,7 +44,21 @@ const Header: React.FC = () => {
         dispatch(logout());
         navigate('/');
     };
-    const {isAuth, user} = useSelector((state: RootState) => state.user);
+    const {isAuth, user, id} = useSelector((state: RootState) => state.user);
+    const GOLDEN_RATIO_CONJUGATE = 0.61803398875;
+    const getHashID = (str: string) => {
+        let hashID = 0;
+        for (let i = 0; i < str.length; i++) {
+            hashID = str.charCodeAt(i) + ((hashID << 5) - hashID);
+        }
+        return Math.abs(hashID);
+    };
+    const getColorFromHash = (id: string) => {
+        let hash = getHashID(id);
+        let spreading = (hash * GOLDEN_RATIO_CONJUGATE) % 1;
+        spreading = Math.floor(spreading * 360);
+        return `hsl(${spreading}, 65%, 55%)`;
+    };
     return (
         <AppBar
             position="static"
@@ -93,12 +107,18 @@ const Header: React.FC = () => {
                             navigate("/authUser");
                         }
                     }}>
-                        <Person fontSize={"large"} sx={{
-                            color: "primary.main",
-                            "&:hover": {
-                                color: "secondary.main",
-                            }
-                        }}/>
+                        <Avatar
+                            sx={{
+                                bgcolor: isAuth ? getColorFromHash(id ?? "default") : "gray",
+                                color: "white",
+                                width: 40,
+                                height: 40,
+                                fontSize: "1.2rem",
+                            }}
+                            alt={`${user?.firstname ?? ""} ${user?.lastname ?? ""}`}
+                        >
+                            {isAuth ? `${user?.firstname?.charAt(0)}${user?.lastname?.charAt(0)}` : ""}
+                        </Avatar>
                     </IconButton>
                     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}
                           transformOrigin={{horizontal: 'left', vertical: 'top'}}
@@ -119,10 +139,26 @@ const Header: React.FC = () => {
                               }
                           }}
                     >
-                        <MenuItem>
-                            <ListItemIcon>
-                                <AccountCircle fontSize="medium" sx={{color: 'primary.main'}}/>
-                            </ListItemIcon>
+                        <MenuItem disableRipple
+                                  sx={{
+                                      cursor: 'default',
+                                      "&:hover": {
+                                          backgroundColor: 'transparent',
+                                      },
+                                      pointerEvents: 'none'
+                                  }}>
+                            <Avatar
+                                sx={{
+                                    bgcolor: isAuth ? getColorFromHash(id ?? "default") : "gray",
+                                    color: "white",
+                                    width: 40,
+                                    height: 40,
+                                    fontSize: "1.2rem",
+                                }}
+                                alt={`${user?.firstname ?? ""} ${user?.lastname ?? ""}`}
+                            >
+                                {isAuth ? `${user?.firstname?.charAt(0)}${user?.lastname?.charAt(0)}` : ""}
+                            </Avatar>
                             {isAuth && user && (
                                 <Typography variant="body1">
                                     {user.firstname} {user.lastname}
