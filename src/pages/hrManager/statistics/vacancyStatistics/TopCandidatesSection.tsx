@@ -4,7 +4,7 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import type { ReactElement } from "react";
 
-import { clampPercent, initials, type ResumeStatUi } from "./hrVacancyStatistics.utils";
+import { clampPercent, initials, type ResumeStatUi } from "../../../../utils/HrVacancyStatisticsUtils";
 
 type Props = {
   topCandidates: ResumeStatUi[];

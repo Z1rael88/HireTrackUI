@@ -6,7 +6,12 @@ import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
 import WorkOutlineRoundedIcon from "@mui/icons-material/WorkOutlineRounded";
 
 import { WORK_TYPE } from "../../../../types/enumLabels";
-import { clampPercent, getLocation, getVacancyTech, getWorkTypeLabel } from "./hrVacancyStatistics.utils";
+import {
+  clampPercent,
+  getLocation,
+  getVacancyTech,
+  getWorkTypeLabel
+} from "../../../../utils/HrVacancyStatisticsUtils";
 
 import type { VacancyDto } from "../../../../types/statistics";
 

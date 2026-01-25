@@ -17,7 +17,7 @@ import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 
-import { clampPercent, initials, type ResumeStatUi } from "./hrVacancyStatistics.utils";
+import { clampPercent, initials, type ResumeStatUi } from "../../../../utils/HrVacancyStatisticsUtils";
 
 type FitMeta = {
   label: string;

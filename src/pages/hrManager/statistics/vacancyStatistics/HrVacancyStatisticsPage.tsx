@@ -11,7 +11,7 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { toast } from "react-toastify";
 import { useSendGenericEmailMutation } from "../../../../api/emailsApi";
 
-import { clampPercent, useHrVacancyStatisticsData, type ViewMode } from "./hrVacancyStatistics.utils";
+import { clampPercent, useHrVacancyStatisticsData, type ViewMode } from "../../../../utils/HrVacancyStatisticsUtils";
 
 import VacancyHeaderCard from "./VacancyHeaderCard";
 import TopCandidatesSection from "./TopCandidatesSection";

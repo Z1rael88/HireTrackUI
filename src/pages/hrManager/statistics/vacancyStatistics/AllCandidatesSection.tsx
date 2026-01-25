@@ -26,7 +26,7 @@ import {
   type FilterKey,
   type ResumeStatUi,
   type ViewMode
-} from "./hrVacancyStatistics.utils";
+} from "../../../../utils/HrVacancyStatisticsUtils";
 
 type FrequentRisk = { label: string; count: number };
 
