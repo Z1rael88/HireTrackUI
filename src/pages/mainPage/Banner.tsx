@@ -1,66 +1,47 @@
-import {Box, Button, Typography} from "@mui/material";
-import {motion} from "framer-motion";
-import React from "react";
-import {Link} from "react-router-dom";
+import { motion } from "framer-motion";
+import { Box, Button, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
-const Banner: React.FC = () => {
-    return (
-        <Box
-            sx={{
-                position: "relative",
-                width: "100%",
-                height: "400px",
-                backgroundImage: "url(/images/banner.png)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "center",
-            }}
+export default function Banner() {
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        width: "100%",
+        height: { xs: 280, sm: 320, md: 400 },
+        backgroundImage: "url(/images/banner.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        overflow: "hidden"
+      }}
+    >
+      <Box sx={{ position: "absolute", inset: 0, backgroundColor: "rgba(0, 0, 0, 0.55)" }} />
+
+      <Box
+        component={motion.div}
+        initial={{ opacity: 0, y: -22 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        sx={{ position: "relative", zIndex: 1, px: 2 }}
+      >
+        <Typography
+          variant="h2"
+          sx={{
+            color: "common.white",
+            textShadow: "0 10px 28px rgba(0,0,0,0.45)"
+          }}
         >
-            <Box
-                sx={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                }}
-            />
-            <motion.div
-                initial={{opacity: 0, y: -50}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 1}}
-                style={{position: "relative", zIndex: 1}}
-            >
-                <Typography variant="h3"
-                            sx={{
-                                color: "primary.main",
-                                fontWeight: "bold",
-                                textShadow: "2px 2px 4px rgba(0,0,0,0.8)"
-                            }}>
-                    Znajdź swoją wymarzoną pracę
-                </Typography>
-                <Button
-                    variant="contained"
-                    component={Link}
-                    to={"/authUser"}
-                    sx={{
-                        mt: 4,
-                        fontSize: "1.2rem",
-                        fontWeight: "bold",
-                        backgroundColor: "secondary.main",
-                        color: "primary.ContrastText",
-                        px: 4,
-                        py: 2,
-                        "&:hover": {backgroundColor: "text.primary"},
-                    }}
-                >
-                    Rozpocznij teraz
-                </Button>
-            </motion.div>
-        </Box>
-    )
-};
+          Znajdź swoją wymarzoną pracę
+        </Typography>
 
-export default Banner;
+        <Button variant="contained" component={Link} to="/authUser" sx={{ mt: { xs: 2.5, md: 4 } }}>
+          Rozpocznij teraz
+        </Button>
+      </Box>
+    </Box>
+  );
+}

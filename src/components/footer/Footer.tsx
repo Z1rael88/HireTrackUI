@@ -1,23 +1,26 @@
-import React from 'react';
-import {Box, Typography, Link} from '@mui/material';
+import { Box, Link, Typography } from "@mui/material";
+import { COLORS } from "../../style/ColorTheme";
 
-const Footer: React.FC = () => {
-    return (
-        <Box sx={{
-            backgroundColor: 'background.default',
-            color: 'primary.main',
-            padding: '20px',
-            textAlign: 'center',
-        }}>
-            <Typography variant="body2">
-                © {new Date().getFullYear()} HireTrack |
-                <Link href={"/privacy"} color="inherit" underline="always"
-                      sx={{marginLeft: '5px'}}>
-                    Polityka prywatności
-                </Link>
-            </Typography>
-        </Box>
-    );
-};
+export default function Footer() {
+  const year = new Date().getFullYear();
 
-export default Footer;
+  return (
+    <Box
+      component="footer"
+      sx={{
+        mt: "auto",
+        py: 2.5,
+        textAlign: "center",
+        backgroundColor: COLORS.black,
+        color: COLORS.white
+      }}
+    >
+      <Typography variant="body2" sx={{ opacity: 0.85 }}>
+        © {year} HireTrack |{" "}
+        <Link href={"/privacy"} color="inherit" underline="always" sx={{ opacity: 0.9 }}>
+          Polityka prywatności
+        </Link>
+      </Typography>
+    </Box>
+  );
+}

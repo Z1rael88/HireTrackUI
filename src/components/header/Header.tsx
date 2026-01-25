@@ -1,197 +1,91 @@
-import React, {useState} from "react";
-import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {logout} from "../../store/userSlice";
-import {useNavigate} from "react-router-dom";
-import {
-    AppBar,
-    Toolbar,
-    Box,
-    Button,
-    Typography,
-    IconButton,
-    MenuItem,
-    Menu,
-    ListItemIcon,
-    Divider,
-    ButtonGroup, Avatar,
-} from "@mui/material";
-import {Logout, Settings} from '@mui/icons-material';
-import {toast} from "react-toastify";
-import {useSelector} from "react-redux";
-import type {RootState} from '../../store.ts';
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { AppBar, Toolbar, Box, Button, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import LoginRounded from "@mui/icons-material/LoginRounded";
 
-const Header: React.FC = () => {
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    const menuItems = [
-        {label: "O nas", path: "/about"},
-        {label: "Oferty", path: "/oferty"},
-        {label: "Utwórz CV", path: "/createCV"},
-        {label: "Kontakt", path: "/contact"},
-    ];
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const handleLogout = () => {
-        setAnchorEl(null);
-        toast.success(`Zostałeś wylogowany!`);
-        dispatch(logout());
-        navigate('/');
-    };
-    const {isAuth, user, id} = useSelector((state: RootState) => state.user);
-    const GOLDEN_RATIO_CONJUGATE = 0.61803398875;
-    const getHashID = (str: string) => {
-        let hashID = 0;
-        for (let i = 0; i < str.length; i++) {
-            hashID = str.charCodeAt(i) + ((hashID << 5) - hashID);
-        }
-        return Math.abs(hashID);
-    };
-    const getColorFromHash = (id: string) => {
-        let hash = getHashID(id);
-        let spreading = (hash * GOLDEN_RATIO_CONJUGATE) % 1;
-        spreading = Math.floor(spreading * 360);
-        return `hsl(${spreading}, 65%, 55%)`;
-    };
-    return (
-        <AppBar
-            position="static"
-            sx={{
-                backgroundColor: "background.default"
-            }}>
-            <Toolbar
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between"
-                }}>
-                <Link to={'/'}>
-                    <ButtonGroup>
-                        <Typography variant="h6"
-                                    sx={{
-                                        color: "text.primary",
-                                        fontWeight: "bold"
-                                    }}>
-                            HireTrack
-                        </Typography>
-                    </ButtonGroup>
-                </Link>
-                <Box>
-                    {menuItems.map((item, index) => (
-                        <Button key={index}
-                                component={Link}
-                                to={item.path}
-                                sx={{
-                                    color: "primary.main",
-                                    mx: 1,
-                                    transition: "color 0.3s ease-in-out, background-color 0.3s ease-in-out",
-                                    "&:hover": {
-                                        textDecoration: "underline",
-                                        textUnderlineOffset: "5px",
-                                        color: "secondary.main",
-                                        backgroundColor: "transparent"
-                                    }
-                                }}>
-                            {item.label}
-                        </Button>
-                    ))}
-                    <IconButton onClick={(event) => {
-                        if (isAuth) {
-                            handleClick(event);
-                        } else {
-                            navigate("/authUser");
-                        }
-                    }}>
-                        <Avatar
-                            sx={{
-                                bgcolor: isAuth ? getColorFromHash(id ?? "default") : "gray",
-                                color: "white",
-                                width: 40,
-                                height: 40,
-                                fontSize: "1.2rem",
-                            }}
-                            alt={`${user?.firstname ?? ""} ${user?.lastname ?? ""}`}
-                        >
-                            {isAuth ? `${user?.firstname?.charAt(0)}${user?.lastname?.charAt(0)}` : ""}
-                        </Avatar>
-                    </IconButton>
-                    <Menu anchorEl={anchorEl} open={open} onClose={handleClose}
-                          transformOrigin={{horizontal: 'left', vertical: 'top'}}
-                          disableScrollLock
-                          sx={{
-                              "& .MuiPaper-root": {
-                                  bgcolor: "background.default",
-                                  color: "primary.main",
-                                  minWidth: 200,
-                                  borderRadius: 2,
-                                  mt: 1
-                              },
-                              "& .MuiMenuItem-root": {
-                                  transition: "color 0.3s ease",
-                                  "&:hover": {
-                                      color: "gray",
-                                  },
-                              }
-                          }}
-                    >
-                        <MenuItem disableRipple
-                                  sx={{
-                                      cursor: 'default',
-                                      "&:hover": {
-                                          backgroundColor: 'transparent',
-                                      },
-                                      pointerEvents: 'none'
-                                  }}>
-                            <Avatar
-                                sx={{
-                                    bgcolor: isAuth ? getColorFromHash(id ?? "default") : "gray",
-                                    color: "white",
-                                    width: 40,
-                                    height: 40,
-                                    fontSize: "1.2rem",
-                                }}
-                                alt={`${user?.firstname ?? ""} ${user?.lastname ?? ""}`}
-                            >
-                                {isAuth ? `${user?.firstname?.charAt(0)}${user?.lastname?.charAt(0)}` : ""}
-                            </Avatar>
-                            {isAuth && user && (
-                                <Typography variant="body1">
-                                    {user.firstname} {user.lastname}
-                                </Typography>
-                            )}
-                        </MenuItem>
-                        <Divider sx={{bgcolor: "secondary.main"}}/>
-                        <MenuItem onClick={handleClose}>
-                            <Typography variant="body2">Wybrane oferty</Typography>
-                        </MenuItem>
-                        <MenuItem onClick={handleClose}>
-                            <Typography variant="body2">Wiadomości</Typography>
-                        </MenuItem>
-                        <MenuItem onClick={handleClose}>
-                            <Typography variant="body2">Bezpieczeństwo</Typography>
-                        </MenuItem>
-                        <Divider sx={{bgcolor: "secondary.main"}}/>
-                        <MenuItem onClick={handleClose}>
-                            <ListItemIcon>
-                                <Settings fontSize="small" sx={{color: 'gray'}}/>
-                            </ListItemIcon>
-                            <Typography variant="body2">Ustawienia</Typography>
-                        </MenuItem>
-                        <MenuItem onClick={handleLogout}>
-                            <ListItemIcon>
-                                <Logout fontSize="small" sx={{color: 'red'}}/>
-                            </ListItemIcon>
-                            <Typography variant="body2">Wyloguj się</Typography>
-                        </MenuItem>
-                    </Menu>
-                </Box>
-            </Toolbar>
-        </AppBar>
-    );
-};
-export default Header;
+import type { RootState } from "../../store/store.ts";
+import { logout } from "../../store/userSlice";
+import { Roles } from "../../types/enums";
+import ProfileMenu from "../layout/ProfileMenu";
+import { COLORS } from "../../style/ColorTheme";
+
+export default function Header() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isAuth, user, role: storedRole } = useSelector((state: RootState) => state.user);
+
+  const handleLogout = () => {
+    toast.success("Zostałeś wylogowany!");
+    dispatch(logout());
+    navigate("/");
+  };
+
+  const fullName = `${user?.firstname ?? ""} ${user?.lastname ?? ""}`.trim() || "Użytkownik";
+  const role = storedRole === Roles.HrManager ? Roles.HrManager : Roles.Candidate;
+
+  return (
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: COLORS.black,
+        color: COLORS.white,
+        boxShadow: "none",
+        borderBottom: `1px solid ${alpha(COLORS.white, 0.1)}`
+      }}
+    >
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between", gap: 2, minHeight: { xs: 56, sm: 64 } }}>
+        <Typography
+          component={Link}
+          to="/"
+          variant="h6"
+          sx={{
+            textDecoration: "none",
+            fontWeight: 800,
+            letterSpacing: 0.2,
+            color: COLORS.accent,
+            "&:hover": { color: COLORS.accentHover }
+          }}
+        >
+          HireTrack
+        </Typography>
+
+        <Box>
+          {isAuth ? (
+            <ProfileMenu
+              role={role}
+              user={{ name: fullName, email: user?.email ?? undefined, company: undefined }}
+              onNavigate={() => navigate("/contact")}
+              onLogout={handleLogout}
+              onOpenProfile={() => navigate("/")}
+              onOpenCV={() => navigate("/candidate/resume")}
+              onOpenSettings={() => navigate("/candidate/settings")}
+              onOpenHrJobs={() => navigate("/hr/vacancies")}
+              onCreateJob={() => navigate("/hr/vacancies/new")}
+            />
+          ) : (
+            <Button
+              variant="outlined"
+              startIcon={<LoginRounded />}
+              component={Link}
+              to="/authUser"
+              state={{ mode: "login" }}
+              sx={{
+                px: 1.75,
+                color: COLORS.white,
+                borderColor: alpha(COLORS.white, 0.22),
+                "&:hover": {
+                  borderColor: alpha(COLORS.white, 0.36),
+                  backgroundColor: alpha(COLORS.white, 0.06)
+                }
+              }}
+            >
+              Zaloguj
+            </Button>
+          )}
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
+}
